@@ -1,8 +1,9 @@
 // Test away!
 import React from "react";
-import renderer from "react-test-renderer"; // 1: install this npm module as a dev dependency
+// import renderer from "react-test-renderer"; // 1: install this npm module as a dev dependency
 import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/react/cleanup-after-each";
+import "jest-dom/extend-expect";
 import Dashboard from "../dashboard/Dashboard";
 
 describe("<Display/>", () => {
@@ -23,14 +24,14 @@ describe("<Display/>", () => {
     const { getByText } = render(<Dashboard />);
 
     //Tests if door is unlocked
-    getByText(/unlocked/i);
+    expect(getByText(/unlocked/i)).toHaveClass("green-led");
 
     const closeButton = getByText(/close gate/i);
     const lockButton = getByText(/lock gate/i);
 
     fireEvent.click(closeButton);
     fireEvent.click(lockButton);
-
-    getByText(/locked/i);
+    //Tests if door is locked
+    expect(getByText(/locked/i)).toHaveClass("red-led");
   });
 });
